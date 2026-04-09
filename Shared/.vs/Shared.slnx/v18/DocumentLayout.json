@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\suzi\\Documents\\projects\\csP\\ReMessenger\\Shared\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{25B522D9-4134-5371-B9C9-D4AF67F29566}|Shared.csproj|c:\\users\\suzi\\documents\\projects\\csp\\remessenger\\shared\\source\\tools\\debugtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{25B522D9-4134-5371-B9C9-D4AF67F29566}|Shared.csproj|solutionrelative:source\\tools\\debugtool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DebugTool.cs",
+              "DocumentMoniker": "C:\\Users\\suzi\\Documents\\projects\\csP\\ReMessenger\\Shared\\Source\\tools\\DebugTool.cs",
+              "RelativeDocumentMoniker": "Source\\tools\\DebugTool.cs",
+              "ToolTip": "C:\\Users\\suzi\\Documents\\projects\\csP\\ReMessenger\\Shared\\Source\\tools\\DebugTool.cs",
+              "RelativeToolTip": "Source\\tools\\DebugTool.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-09T15:00:28.593Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

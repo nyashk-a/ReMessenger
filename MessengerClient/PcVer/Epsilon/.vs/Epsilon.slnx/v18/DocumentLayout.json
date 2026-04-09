@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|c:\\users\\suzi\\documents\\projects\\csp\\messenger\\epsilon\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|solutionrelative:mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|c:\\users\\suzi\\documents\\projects\\csp\\messenger\\epsilon\\pagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|solutionrelative:pagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|c:\\users\\suzi\\documents\\projects\\csp\\messenger\\epsilon\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24B1DE3D-69FB-74A3-72A8-F823554588EC}|Epsilon.csproj|solutionrelative:mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 417,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\MainPage.xaml",
+              "RelativeDocumentMoniker": "MainPage.xaml",
+              "ToolTip": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\MainPage.xaml",
+              "RelativeToolTip": "MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-04-03T19:06:40.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PageController.cs",
+              "DocumentMoniker": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\PageController.cs",
+              "RelativeDocumentMoniker": "PageController.cs",
+              "ToolTip": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\PageController.cs",
+              "RelativeToolTip": "PageController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T19:06:36.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MauiProgram.cs",
+              "DocumentMoniker": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\MauiProgram.cs",
+              "RelativeDocumentMoniker": "MauiProgram.cs",
+              "ToolTip": "C:\\Users\\suzi\\Documents\\projects\\csP\\Messenger\\Epsilon\\MauiProgram.cs",
+              "RelativeToolTip": "MauiProgram.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T19:06:35.043Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
