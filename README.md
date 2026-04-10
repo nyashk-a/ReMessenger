@@ -12,7 +12,7 @@ We use a custom algorithm for the data encryption: **_RE5 with Noise shuffling v
 
 ## Contributors and maintainers of the up-to-date repository:
 
-- [FrogCpp (previously _FrogCpp_):](https://github.com/nyashk-a)  Full Server logic, Networking & Desktop client «Epsilon»
+- [nyashk-a (previously _FrogCpp_):](https://github.com/nyashk-a)  Full Server logic, Networking & Desktop client «Epsilon»
 - [Gyroscopic-why:](https://github.com/Gyroscopic-why) Encryption, Communication protocol & Mobile client «Ypsilon»
 
 ---
@@ -20,7 +20,7 @@ We use a custom algorithm for the data encryption: **_RE5 with Noise shuffling v
 
 ## Custom project dependencies:
 - Encryption: [Jabr - Gyroscopic](https://github.com/gyroscopic-why/Jabr) (v5.0+)
-- Networking: [NetDriver - FrogCpp](https://github.com/nyashk-a/NetDriver) (AC+)
+- Networking: [NetDriver - nyask-a](https://github.com/nyashk-a/NetDriver) (AC+)
 - Miscellaneous: [AVcontrol - Gyroscopic](https://github.com/gyroscopic-why/AVcontrol) (v2.6.1+)
 
 ---
