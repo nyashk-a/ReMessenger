@@ -6,25 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
-      "JabrAPI/5.0.0": {
+      "JabrAPI/5.0.0-beta": {
         "dependencies": {
-          "AVcontrol": "2.6.1.0",
-          "runtimepack.Microsoft.Windows.SDK.NET.Ref": "10.0.19041.57"
+          "AVcontrol": "2.6.1.0"
         },
         "runtime": {
           "JabrAPI.dll": {}
-        }
-      },
-      "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57": {
-        "runtime": {
-          "Microsoft.Windows.SDK.NET.dll": {
-            "assemblyVersion": "10.0.19041.38",
-            "fileVersion": "10.0.19041.55"
-          },
-          "WinRT.Runtime.dll": {
-            "assemblyVersion": "2.2.0.0",
-            "fileVersion": "2.2.0.48161"
-          }
         }
       },
       "AVcontrol/2.6.1.0": {
@@ -38,13 +25,8 @@
     }
   },
   "libraries": {
-    "JabrAPI/5.0.0": {
+    "JabrAPI/5.0.0-beta": {
       "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "runtimepack.Microsoft.Windows.SDK.NET.Ref/10.0.19041.57": {
-      "type": "runtimepack",
       "serviceable": false,
       "sha512": ""
     },
