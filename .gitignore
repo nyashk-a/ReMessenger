@@ -162,7 +162,7 @@ publish/
 PublishScripts/
 
 # NuGet Packages
-*.nupkg
+# *.nupkg
 # The packages folder can be ignored because of Package Restore
 **/packages/*
 # except build/, which is used as an MSBuild target.
@@ -301,3 +301,4 @@ Properties/
 Shared/obj/Release/net10.0/Shared.GeneratedMSBuildEditorConfig.editorconfig
 Shared/obj/Release/net10.0/Shared.AssemblyInfo.cs
 SharedTests/bin/Release/net10.0/logs.txt
+/Shared/.vs
