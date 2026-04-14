@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using AVcontrol;
 
 
-
 namespace Shared.Source
 {
     public class JN_Message(DateTime4b sentTime, string message, UInt64 authorSUID)
