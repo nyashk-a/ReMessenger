@@ -4,61 +4,77 @@
 
 namespace Shared.Source.USC
 {
-    public enum MainCommand
+    public enum MainCommand : Byte
     {
-        CONNECT_CLIENT_SERVER_1_EN,
-        CONNECT_CLIENT_SERVER_2_EE,
-        CONNECT_CLIENT_SERVER_3_NE,
+        PING_STATUS_CHECK = 0,
 
-        CONNECT_CLIENT_CLIENT_1_EN,
-        CONNECT_CLIENT_CLIENT_2_EE,
-        CONNECT_CLIENT_CLIENT_3_NE,
+        CONNECT_CLIENT_SERVER_1_EN = 1,
+        CONNECT_CLIENT_SERVER_2_EE = 2,
+        CONNECT_CLIENT_SERVER_3_NE = 3,
 
-        STD_AUTHENTICATION,
-        TOKEN_AUTHENTICATION,
+        CONNECT_CLIENT_CLIENT_1_EN = 4,
+        CONNECT_CLIENT_CLIENT_2_EE = 5,
+        CONNECT_CLIENT_CLIENT_3_NE = 6,
 
-        HERE_IS_SYNC,
-        I_RECEIVED_SYNC,
+        STD_AUTHENTICATION   = 7,
+        TOKEN_AUTHENTICATION = 8,
 
-        GET_ACTIVE_CHATS,
-        UPDATE_CHAT_HISTORY,
+        HERE_IS_SYNC    = 9,
+        I_RECEIVED_SYNC = 10,
+        TRY_CHANGE_MY_DEVICE_PRIORITY = 11,
 
-        MESSAGE_RECEIVED,
-        MESSAGE_READ,
+        GET_ACTIVE_CHATS    = 12,
+        UPDATE_CHAT_HISTORY = 13,
 
-        SEND_MSG,
-        SEND_PIC,
-        SEND_FILE,
-        SEND_MUSIC,
-        DELETE_MSG,
+        MESSAGE_RECEIVED = 14,
+        MESSAGE_READ     = 15,
 
-        CHANGE_LOGIC,
-        CHANGE_PASSWORD,
-        DELETE_ACCOUNT
+        SEND_MSG   = 16,
+        SEND_PIC   = 17,
+        SEND_FILE  = 18,
+        SEND_MUSIC = 19,
+        DELETE_MSG = 20,
+
+        CHANGE_LOGIN    = 21,
+        CHANGE_PASSWORD = 22,
+        DELETE_ACCOUNT  = 23
     }
 
 
 
-    public enum SubCommand
+    public enum SubCommand : Byte
     {
-        NONE,
+        NONE = 0,
 
-        SERVER_HERE_IS_NEW_ENCRYPTION_KEY,
-        CLIENT_HERE_IS_NEW_ENCRYPTION_KEY,
+        SERVER_HERE_IS_NEW_EKEY = 1,
+        SERVER_HERE_IS_NEW_EKEY_EX_ALPHABET = 2,
+        SERVER_HERE_IS_NEW_EKEY_PR_ALPHABET = 3,
+        SERVER_HERE_IS_NEW_EKEY_SHIFTS = 4,
 
-        SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK
+        CLIENT_FROM_SERVER_HERE_IS_NEW_EKEY = 5,
+        CLIENT_FROM_SERVER_HERE_IS_NEW_EKEY_EX_ALPHABET = 6,
+        CLIENT_FROM_SERVER_HERE_IS_NEW_EKEY_PR_ALPHABET = 7,
+        CLIENT_FROM_SERVER_HERE_IS_NEW_EKEY_SHIFTS = 8,
+
+        CLIENT_HERE_IS_NEW_EKEY = 9,
+        CLIENT_HERE_IS_NEW_EKEY_EX_ALPHABET = 10,
+        CLIENT_HERE_IS_NEW_EKEY_PR_ALPHABET = 11,
+        CLIENT_HERE_IS_NEW_EKEY_SHIFTS = 12,
+
+        SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK = 13
     }
 
 
 
     public enum Response
     {
-        OK,
-        OK_NOW_SYNCING,
+        OK = 0,
+        OK_NOW_SYNCING = 1,
 
-        NOT_NOW_PLEASE_WAIT_FOR_SYNC,
+        NOT_NOW_PLEASE_WAIT_FOR_SYNC = 2,
 
-        ERROR,
-        ERROR_YOU_NEED_TO_REAUTHORISE
+        ERROR_UNKNOWN = 3,
+        ERROR_PROBABLY_INTERNET_TROUBLE = 4,
+        ERROR_YOU_NEED_TO_REAUTHORISE = 5
     }
 }
