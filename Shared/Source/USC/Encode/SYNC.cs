@@ -7,14 +7,15 @@ namespace Shared.Source.USC
 {
     static public partial class Encode
     {
-        static public Byte[] HERE_IS_SYNC(UInt64 sessionId, List<Byte> reKeyExport)
+        static public Byte[] HERE_IS_SYNC(UInt64 sessionId, SubCommand reKeyExportType, List<Byte> reKeyExport)
         {
             return PackTogether
             (
                 sessionId,
                 MainCommand.HERE_IS_SYNC,
                 [
-                    SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK
+                    SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
+                    reKeyExportType
                 ],
                 [.. reKeyExport]
             );
