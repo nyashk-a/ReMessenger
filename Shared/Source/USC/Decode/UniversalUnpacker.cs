@@ -133,8 +133,8 @@ namespace Shared.Source.USC
             public UnpackedContent() { }
 
             public UnpackedContent(UInt64 sessionId,
-            MainCommand mainCommand, SubCommand[] subCommands,
-            List<Byte> reKeyExport, Byte[] packedContent)
+                MainCommand mainCommand, SubCommand[] subCommands,
+                List<Byte> reKeyExport, Byte[] packedContent)
             {
                 SessionId = sessionId;
 
@@ -144,6 +144,17 @@ namespace Shared.Source.USC
                 ReKeyExport = reKeyExport;
                 PackedContent = packedContent;
             }
+            public UnpackedContent(UnpackedContent copyFrom)
+            {
+                SessionId = copyFrom.SessionId;
+
+                MainCommand = copyFrom.MainCommand;
+                SubCommands = [.. copyFrom.SubCommands];
+
+                ReKeyExport   = [.. copyFrom.ReKeyExport];
+                PackedContent = [.. copyFrom.PackedContent];
+            }
+
         }
     }
 }

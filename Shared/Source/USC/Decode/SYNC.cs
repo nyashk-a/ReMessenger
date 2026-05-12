@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 
@@ -6,13 +8,25 @@ namespace Shared.Source.USC
 {
     static public partial class Decode
     {
-        static public Byte[] HERE_IS_SYNC(SubCommand[] subCommands)
+        static public UnpackedContent HERE_IS_SYNC(Byte[] packedContent)
+            => UnPack(packedContent);
+        static public UnpackedContent I_RECEIVED_SYNC(Byte[] packedContent)
+            => UnPack(packedContent);
+
+        static public Unpacked_TRY_CHANGE_HEAD_DEVICE TRY_CHANGE_HEAD_DEVICE(Byte[] packedContent)
         {
-            throw new NotImplementedException();
+            Unpacked_TRY_CHANGE_HEAD_DEVICE unpacked = new (UnPack(packedContent));
+            unpacked.requestedPriority = unpacked.PackedContent.FirstOrDefault();
+
+            return unpacked;
         }
-        static public Byte[] I_RECEIVED_SYNC(SubCommand[] subCommands)
+
+
+
+        public class Unpacked_TRY_CHANGE_HEAD_DEVICE
+            (UnpackedContent unpackedContent) : UnpackedContent(unpackedContent)
         {
-            throw new NotImplementedException();
+            public Byte requestedPriority = 0;
         }
     }
 }
