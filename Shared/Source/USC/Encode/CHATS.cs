@@ -1,8 +1,10 @@
-﻿using System;
+﻿using AVcontrol;
+using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using AVcontrol;
+using System.Text;
 
 
 
@@ -14,15 +16,31 @@ namespace Shared.Source.USC
         {
             throw new NotImplementedException();
         }
-        static public Byte[] UPDATE_CHAT_HISTORY(JN_Message[] chatStory, SubCommand[]? subCommands=null)
+        static public byte[] UPDATE_CHAT_HISTORY(JN_Message[] chatStory)
         {
-            List<byte> res = new List<byte>();
+            int totalLength = 0;
+            foreach (var msg in chatStory)
+            {
+                totalLength += 4 + 8 + Encoding.Unicode.GetByteCount(msg.message) + 8;
+            }
+            byte[] result = new byte[totalLength];
+            int offset = 0;
 
             foreach (var msg in chatStory)
             {
-                var text = ToBinary.Utf16(msg.message);
-                uint len = (uint)text.Length;
+                Buffer.BlockCopy(ToBinary.LittleEndian(Encoding.Unicode.GetByteCount(msg.message)), 0, result, offset, 4);
+                offset += 4;
+                Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalMinutes), 0, result, offset, 4);
+                offset += 4;
+                Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalHours), 0, result, offset, 4);
+                offset += 4;
+                Buffer.BlockCopy(ToBinary.Utf16(msg.message), 0, result, offset, Encoding.Unicode.GetByteCount(msg.message));
+                offset += Encoding.Unicode.GetByteCount(msg.message);
+                Buffer.BlockCopy(ToBinary.LittleEndian(msg.authorSUID), 0, result, offset, 8);
+                offset += 8;
             }
+
+            return result;
         }
     }
 }
