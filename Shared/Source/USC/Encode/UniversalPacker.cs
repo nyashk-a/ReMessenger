@@ -40,5 +40,17 @@ namespace Shared.Source.USC
                 .. packedContent
             ];
         }
+
+
+
+        static public Byte[] PackResponse(MainCommand responseCode, UInt64 responseSID, UInt64 newSessionId)
+        {
+            return
+            [
+                (Byte)responseCode,
+                .. ToBinary.BigEndian(responseSID),
+                .. ToBinary.BigEndian(newSessionId)
+            ];
+        }
     }
 }

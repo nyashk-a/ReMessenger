@@ -24,9 +24,6 @@ namespace Shared.Source.USC
 
                     //  Response handling
                     if (parsedMainCommand == MainCommand.UNKNOWN ||
-                        parsedMainCommand == MainCommand.OK                           ||
-                        parsedMainCommand == MainCommand.OK_NOW_SYNCING               ||
-                        parsedMainCommand == MainCommand.NOT_NOW_PLEASE_WAIT_FOR_SYNC ||
                         parsedMainCommand == MainCommand.ERROR_UNKNOWN                   ||
                         parsedMainCommand == MainCommand.ERROR_PROBABLY_INTERNET_TROUBLE ||
                         parsedMainCommand == MainCommand.ERROR_YOU_NEED_TO_REAUTHORISE   ||
@@ -41,6 +38,9 @@ namespace Shared.Source.USC
 
                     Byte subCommandsCount = packedContent[9];
                     if (parsedMainCommand == MainCommand.UNKNOWN ||
+                        parsedMainCommand == MainCommand.OK ||
+                        parsedMainCommand == MainCommand.OK_NOW_SYNCING ||
+                        parsedMainCommand == MainCommand.NOT_NOW_PLEASE_WAIT_FOR_SYNC ||
                         packedContent.Length < 6 + subCommandsCount) return unpacked;
 
 

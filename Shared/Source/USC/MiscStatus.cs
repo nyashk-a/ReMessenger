@@ -7,8 +7,8 @@ namespace Shared.Source.USC
     public enum PingStatus
     {
         I_AM_CHECKING = 0,
-        I_AM_ONLINE = 1,
-        I_AM_OFFLINE = 2,
+        I_AM_ONLINE   = 1,
+        I_AM_OFFLINE  = 2,
 
         UNKNOWN = 255
     }

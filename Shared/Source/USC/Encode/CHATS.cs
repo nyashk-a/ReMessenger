@@ -1,10 +1,8 @@
-﻿using AVcontrol;
-using System;
-using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System;
 using System.Text;
+
+
+using AVcontrol;
 
 
 
@@ -12,11 +10,55 @@ namespace Shared.Source.USC
 {
     static public partial class Encode
     {
-        static public Byte[] GET_ACTIVE_CHATS(SubCommand[] subCommands)
+        static public Byte[] I_REQUEST_ACTIVE_CHATS(UInt64 sessionId, UInt64 forResponseSID)
         {
-            throw new NotImplementedException();
+            return PackTogether
+            (
+                sessionId,
+                forResponseSID,
+                MainCommand.I_REQUEST_ACTIVE_CHATS,
+                [
+                    SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK
+                ],
+                []
+            );
         }
-        static public byte[] UPDATE_CHAT_HISTORY(JN_Message[] chatStory)
+        static public Byte[] HERE_IS_ACTIVE_CHATS(UInt64 responseSID, JN_Chat[] chats)
+        {
+            return PackTogether
+            (
+                responseSID,
+                0,
+                MainCommand.HERE_IS_ACTIVE_CHATS,
+                [],
+                [
+                    //  вот сюда упаковываешь чаты JN_Chat[] chats
+                ]
+            );
+        }
+
+
+
+        static public Byte[] I_REQUEST_CHAT_HISTORY_UPDATE(UInt64 sessionId, UInt64 forResponseSID,
+            UInt32 fromMessageSUID, UInt32 chatSUID)
+        {
+            return PackTogether
+            (
+                sessionId,
+                forResponseSID,
+                MainCommand.I_REQUEST_CHAT_HISTORY_UPDATE,
+                [
+                    SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK
+                ],
+                [
+                    .. ToBinary.LittleEndian(fromMessageSUID),
+                    .. ToBinary.LittleEndian(chatSUID)
+                ]
+            );
+        }
+
+
+        static public byte[] HERE_IS_CHAT_HISTORY(JN_Message[] chatStory)
         {
             int totalLength = 0;
             foreach (var msg in chatStory)
