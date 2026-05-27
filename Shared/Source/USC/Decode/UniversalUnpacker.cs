@@ -12,29 +12,43 @@ namespace Shared.Source.USC
         static public UnpackedContent UnPack(Byte[] packedContent)
         {
             UnpackedContent unpacked = new();
-            if (packedContent != null && packedContent.Length >= 6)
+            if (packedContent != null && packedContent.Length >= 2)
             {
                 try
                 {
-                    UInt64 sessionId   = FromBinary.BigEndian<UInt64>(packedContent.AsSpan(0, 4));
-                    unpacked.SessionId = sessionId;
-
-                    Byte unsanitizedCommand = packedContent[5];
+                    Byte unsanitizedCommand = packedContent[0];
                     MainCommand parsedMainCommand = Enum.IsDefined(typeof(MainCommand), unsanitizedCommand)
                         ? (MainCommand)unsanitizedCommand
                         :  MainCommand.UNKNOWN;
                     unpacked.MainCommand = parsedMainCommand;
 
-                    Byte subCommandsCount = packedContent[6];
+                    //  Response handling
+                    if (parsedMainCommand == MainCommand.UNKNOWN ||
+                        parsedMainCommand == MainCommand.OK                           ||
+                        parsedMainCommand == MainCommand.OK_NOW_SYNCING               ||
+                        parsedMainCommand == MainCommand.NOT_NOW_PLEASE_WAIT_FOR_SYNC ||
+                        parsedMainCommand == MainCommand.ERROR_UNKNOWN                   ||
+                        parsedMainCommand == MainCommand.ERROR_PROBABLY_INTERNET_TROUBLE ||
+                        parsedMainCommand == MainCommand.ERROR_YOU_NEED_TO_REAUTHORISE   ||
+                        packedContent.Length < 5) return unpacked;
 
+                    UInt64 sessionId   = FromBinary.BigEndian<UInt64>(packedContent.AsSpan(1, 4));
+                    unpacked.SessionId = sessionId;
+                    if (packedContent.Length < 9) return unpacked;
+
+                    UInt64 forResponseSID   = FromBinary.BigEndian<UInt64>(packedContent.AsSpan(5, 4));
+                    unpacked.ForResponseSID = forResponseSID;
+
+                    Byte subCommandsCount = packedContent[9];
                     if (parsedMainCommand == MainCommand.UNKNOWN ||
                         packedContent.Length < 6 + subCommandsCount) return unpacked;
+
 
                     ReKeyExportType reKeyExportType = ReKeyExportType.NOT_PRESENT;
                     SubCommand[] subCommands = new SubCommand[subCommandsCount];
                     for (var i = 0; i < subCommandsCount; i++)
                     {
-                        Byte  unsanitizedSubCommand = packedContent[7 + i];
+                        Byte  unsanitizedSubCommand = packedContent[10 + i];
                         SubCommand parsedSubCommand = Enum.IsDefined(typeof(SubCommand), unsanitizedSubCommand)
                             ? (SubCommand)unsanitizedSubCommand
                             :  SubCommand.UNKNOWN;
@@ -71,7 +85,7 @@ namespace Shared.Source.USC
                     }
                     unpacked.SubCommands = subCommands;
 
-                    Int32 dataOffset = 7 + subCommandsCount;
+                    Int32 dataOffset = 10 + subCommandsCount;
                     if (reKeyExportType != ReKeyExportType.NOT_PRESENT)
                     {
                         switch (reKeyExportType)
@@ -123,6 +137,7 @@ namespace Shared.Source.USC
         public class UnpackedContent
         {
             public UInt64 SessionId = 0;
+            public UInt64 ForResponseSID = 0;
 
             public MainCommand  MainCommand = MainCommand.UNKNOWN;
             public SubCommand[] SubCommands = [];
@@ -133,11 +148,12 @@ namespace Shared.Source.USC
 
             public UnpackedContent() { }
 
-            public UnpackedContent(UInt64 sessionId,
+            public UnpackedContent(UInt64 sessionId, UInt64 forResponseSID,
                 MainCommand mainCommand, SubCommand[] subCommands,
                 List<Byte> reKeyExport, Byte[] packedContent)
             {
                 SessionId = sessionId;
+                ForResponseSID = forResponseSID;
 
                 MainCommand = mainCommand;
                 SubCommands = subCommands;
@@ -148,6 +164,7 @@ namespace Shared.Source.USC
             public UnpackedContent(UnpackedContent copyFrom)
             {
                 SessionId = copyFrom.SessionId;
+                ForResponseSID = copyFrom.ForResponseSID;
 
                 MainCommand = copyFrom.MainCommand;
                 SubCommands = [.. copyFrom.SubCommands];

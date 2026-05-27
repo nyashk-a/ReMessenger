@@ -21,22 +21,34 @@ namespace Shared.Source.USC
         I_RECEIVED_SYNC = 9,
         TRY_CHANGE_MY_DEVICE_PRIORITY = 10,
 
-        GET_ACTIVE_CHATS    = 11,
-        UPDATE_CHAT_HISTORY = 12,
+        I_REQUEST_ACTIVE_CHATS = 11,
+        HERE_IS_ACTIVE_CHATS   = 12,
+        I_REQUEST_CHAT_HISTORY_UPDATE = 13,
+        HERE_IS_CHAT_HISTORY_UPDATE   = 14,
 
-        UPDATE_PING_STATUS    = 13,
-        UPDATE_MESSAGE_STATUS = 14,
+        UPDATE_PING_STATUS    = 15,
+        UPDATE_MESSAGE_STATUS = 16,
 
-        SEND_MSG   = 15,
-        SEND_PIC   = 16,
-        SEND_FILE  = 17,
-        SEND_MUSIC = 18,
-        DELETE_MSG = 19,
+        SEND_MSG   = 17,
+        SEND_PIC   = 18,
+        SEND_FILE  = 19,
+        SEND_MUSIC = 20,
+        DELETE_MSG = 21,
 
-        CHANGE_LOGIN    = 20,
-        CHANGE_PASSWORD = 21,
-        DELETE_ACCOUNT  = 22,
+        CHANGE_LOGIN    = 22,
+        CHANGE_PASSWORD = 23,
+        DELETE_ACCOUNT  = 24,
 
+        //-----  RESPONSES
+        OK = 249,
+        OK_NOW_SYNCING = 250,
+        NOT_NOW_PLEASE_WAIT_FOR_SYNC = 251,
+
+        ERROR_UNKNOWN = 252,
+        ERROR_PROBABLY_INTERNET_TROUBLE = 253,
+        ERROR_YOU_NEED_TO_REAUTHORISE = 254,
+
+        //-----  MISC
         UNKNOWN = 255
     }
 
@@ -65,19 +77,5 @@ namespace Shared.Source.USC
         HERE_IS_YOUR_NEW_SESSION_ID = 14,
 
         UNKNOWN = 255
-    }
-
-
-
-    public enum Response : Byte
-    {
-        OK = 0,
-        OK_NOW_SYNCING = 1,
-
-        NOT_NOW_PLEASE_WAIT_FOR_SYNC = 2,
-
-        ERROR_UNKNOWN = 3,
-        ERROR_PROBABLY_INTERNET_TROUBLE = 4,
-        ERROR_YOU_NEED_TO_REAUTHORISE = 5
     }
 }

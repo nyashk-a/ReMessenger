@@ -8,7 +8,11 @@ namespace Shared.Source.USC
 {
     static public partial class Decode
     {
-        static public JN_Chat[] GET_ACTIVE_CHATS(byte[] packedContent)
+        static public Byte[] I_REQUEST_ACTIVE_CHATS(byte[] packedContent)
+        {
+            throw new NotImplementedException();
+        }
+        static public JN_Chat[] HERE_IS_ACTIVE_CHATS(byte[] packedContent)
         {
             int len;
             int offset = 0;
@@ -18,7 +22,9 @@ namespace Shared.Source.USC
                 
             }
         }
-        static public JN_Message[] UPDATE_CHAT_HISTORY(byte[] packedContent)
+
+
+        static public JN_Message[] HERE_IS_UPDATE_CHAT_HISTORY(Byte[] packedContent)
         {
             int len;
             int offset = 0;
@@ -39,6 +45,17 @@ namespace Shared.Source.USC
                 if (offset >= packedContent.Length) break;
             }
             return listmsg.ToArray();
+        }
+        static public ChatHistoryUpdate I_REQUEST_CHAT_HISTORY_UPDATE(Byte[] packedContent)
+        {
+            //  Должен вернуть UInt32 suid чата, а также UInt32 с какой мессаги обновлять
+            throw new NotImplementedException();
+        }
+
+        public class ChatHistoryUpdate(UInt32 chatSuid, UInt32 fromMessageSuid)
+        {
+            public UInt32 ChatSuid { get; } = chatSuid;
+            public UInt32 FromMessageSuid { get; } = fromMessageSuid;
         }
     }
 }
