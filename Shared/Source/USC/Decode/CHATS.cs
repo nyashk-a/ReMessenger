@@ -10,21 +10,39 @@ namespace Shared.Source.USC
     {
         static public Byte[] I_REQUEST_ACTIVE_CHATS(byte[] packedContent)
         {
-            throw new NotImplementedException();
+            return packedContent;
         }
-        static public JN_Chat[] HERE_IS_ACTIVE_CHATS(byte[] packedContent)
+        static public List<JN_Chat> HERE_IS_ACTIVE_CHATS(byte[] packedContent)
         {
-            int len;
+            int lenA, lenM;
             int offset = 0;
             List<JN_Chat> listchat = new();
             while (true)
             {
-                
+                lenA = FromBinary.LittleEndian<UInt16>(packedContent.AsSpan(offset, 2));
+                offset += 2;
+                lenM = FromBinary.LittleEndian<UInt16>(packedContent.AsSpan(offset, 2));
+                offset += 2;
+                UInt64 chsuid = FromBinary.LittleEndian<UInt64>(packedContent.AsSpan(offset, 8));
+                offset += 8;
+                string path = FromBinary.Utf16(packedContent.AsSpan(offset, lenA));
+                offset += lenA;
+                var listM = new List<UInt64>(lenM);
+                for (int i = 0; i < lenM; i++)
+                {
+                    listM[i] = FromBinary.LittleEndian<UInt64>(packedContent.AsSpan(offset, 8));
+                    offset += 8;
+                }
+
+                listchat.Add(new(listM, path, chsuid));
+
+                if (offset >= packedContent.Length) break;
             }
+            return listchat;
         }
 
 
-        static public JN_Message[] HERE_IS_UPDATE_CHAT_HISTORY(Byte[] packedContent)
+        static public List<JN_Message> HERE_IS_UPDATE_CHAT_HISTORY(Byte[] packedContent)
         {
             int len;
             int offset = 0;
@@ -44,15 +62,15 @@ namespace Shared.Source.USC
                 offset += 8 + 8 + 4 + + 4 + len;
                 if (offset >= packedContent.Length) break;
             }
-            return listmsg.ToArray();
+            return listmsg;
         }
         static public ChatHistoryUpdate I_REQUEST_CHAT_HISTORY_UPDATE(Byte[] packedContent)
         {
             //  Должен вернуть UInt32 suid чата, а также UInt32 с какой мессаги обновлять
-            throw new NotImplementedException();
+            return new ChatHistoryUpdate(FromBinary.LittleEndian<UInt32>(packedContent.AsSpan(0, 4)), FromBinary.LittleEndian<UInt32>(packedContent.AsSpan(4, 4)));
         }
 
-        public class ChatHistoryUpdate(UInt32 chatSuid, UInt32 fromMessageSuid)
+        public struct ChatHistoryUpdate(UInt32 fromMessageSuid, UInt32 chatSuid)
         {
             public UInt32 ChatSuid { get; } = chatSuid;
             public UInt32 FromMessageSuid { get; } = fromMessageSuid;

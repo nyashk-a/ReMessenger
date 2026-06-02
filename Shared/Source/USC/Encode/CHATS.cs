@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Text;
 
 
@@ -25,22 +26,45 @@ namespace Shared.Source.USC
         }
         static public Byte[] HERE_IS_ACTIVE_CHATS(UInt64 responseSID, JN_Chat[] chats)
         {
+            int totalLength = 0;
+            foreach (var chat in chats)
+            {
+                //                 [путь к аватарке]                       [чат сюид]    [сюды юзеров]          [заголовок для парса]
+                totalLength += Encoding.Unicode.GetByteCount(chat.chatAvatar) + 8 + (8 * chat.membersSUID.Count) + 2 + 2;
+            }
+            byte[] result = new byte[totalLength];
+            int offset = 0;
+
+            foreach (var chat in chats)
+            {
+                Buffer.BlockCopy(ToBinary.LittleEndian<UInt16>((UInt16)Encoding.Unicode.GetByteCount(chat.chatAvatar)), 0, result, offset, 2);
+                offset += 2;
+                Buffer.BlockCopy(ToBinary.LittleEndian<UInt16>((UInt16)(8 * chat.membersSUID.Count)), 0, result, offset, 2);
+                offset += 2;
+                Buffer.BlockCopy(ToBinary.LittleEndian<UInt64>(chat.chatSUID), 0, result, offset, 8);
+                offset += 2;
+                Buffer.BlockCopy(ToBinary.Utf16(chat.chatAvatar), 0, result, offset, Encoding.Unicode.GetByteCount(chat.chatAvatar));
+                offset += Encoding.Unicode.GetByteCount(chat.chatAvatar);
+                for (int i = 0; i < chat.membersSUID.Count; i++)
+                {
+                    Buffer.BlockCopy(ToBinary.LittleEndian<UInt64>(chat.membersSUID[i]), 0, result, offset, 8);
+                    offset += 8;
+                }
+            }
+
             return PackTogether
             (
                 responseSID,
                 0,
                 MainCommand.HERE_IS_ACTIVE_CHATS,
                 [],
-                [
-                    //  вот сюда упаковываешь чаты JN_Chat[] chats
-                ]
+                result
             );
         }
 
 
 
-        static public Byte[] I_REQUEST_CHAT_HISTORY_UPDATE(UInt64 sessionId, UInt64 forResponseSID,
-            UInt32 fromMessageSUID, UInt32 chatSUID)
+        static public Byte[] I_REQUEST_CHAT_HISTORY_UPDATE(UInt64 sessionId, UInt64 forResponseSID, UInt32 fromMessageSUID, UInt32 chatSUID)
         {
             return PackTogether
             (
@@ -58,7 +82,7 @@ namespace Shared.Source.USC
         }
 
 
-        static public byte[] HERE_IS_CHAT_HISTORY(JN_Message[] chatStory, UInt64 sessionId, UInt64 forResponseSID)
+        static public byte[] HERE_IS_CHAT_HISTORY_UPDATE(JN_Message[] chatStory, UInt64 sessionId, UInt64 forResponseSID)
         {
             int totalLength = 0;
             foreach (var msg in chatStory)
@@ -88,7 +112,7 @@ namespace Shared.Source.USC
             (
                 sessionId,
                 forResponseSID,
-                MainCommand.HERE_IS_ACTIVE_CHATS,
+                MainCommand.HERE_IS_CHAT_HISTORY_UPDATE,
                 [],
                 result
             );
