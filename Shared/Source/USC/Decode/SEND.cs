@@ -1,4 +1,5 @@
 ﻿using System;
+using AVcontrol;
 
 
 
@@ -6,25 +7,33 @@ namespace Shared.Source.USC
 {
     static public partial class Decode
     {
-        static public Byte[] SEND_MSG(SubCommand[] subCommands)
+        static public JN_Message SEND_MSG(byte[] packedContent)
         {
-            throw new NotImplementedException();
+            var len = FromBinary.LittleEndian<int>(packedContent.AsSpan(0, 4));
+            return new JN_Message(
+                    new DateTime4b(
+                        FromBinary.LittleEndian<uint>(packedContent.AsSpan(4, 4)),
+                        FromBinary.LittleEndian<uint>(packedContent.AsSpan(4 + 4, 4))),
+                    FromBinary.Utf16(packedContent.AsSpan(4 + 4 + 4, len)),
+                    FromBinary.LittleEndian<ulong>(packedContent.AsSpan(4 + 4 + 4 + len, 8)),
+                    FromBinary.LittleEndian<UInt32>(packedContent.AsSpan(4 + 4 + 4 + len + 8, 4))
+                );
         }
-        static public Byte[] SEND_PIC(SubCommand[] subCommands)
+        static public JN_Message SEND_PIC(byte[] packedContent)                 //в текст сообщения суется строка с именем картинки. сама картинка летит отдельно через пересылку файлов.
         {
-            throw new NotImplementedException();
+            return SEND_MSG(packedContent);
         }
-        static public Byte[] SEND_FILE(SubCommand[] subCommands)
+        static public JN_Message SEND_FILE(byte[] packedContent)                //аналагично картинке
         {
-            throw new NotImplementedException();
+            return SEND_MSG(packedContent);
         }
-        static public Byte[] SEND_MUSIC(SubCommand[] subCommands)
+        static public JN_Message SEND_MUSIC(byte[] packedContent)               //аналогично картинке
         {
-            throw new NotImplementedException();
+            return SEND_MSG(packedContent);
         }
-        static public Byte[] DELETE_MSG(SubCommand[] subCommands)
+        static public UInt32 DELETE_MSG(byte[] packedContent)                   //айди сообщения, которое надо удалить
         {
-            throw new NotImplementedException();
+            return FromBinary.LittleEndian<UInt32>(packedContent);
         }
     }
 }

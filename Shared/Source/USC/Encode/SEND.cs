@@ -1,6 +1,5 @@
 ﻿using System;
-
-
+using System.Text;
 using AVcontrol;
 
 
@@ -9,8 +8,22 @@ namespace Shared.Source.USC
 {
     static public partial class Encode
     {
-        static public Byte[] SEND_MSG(UInt64 sessionId, UInt64 forResponseSID, string msgText)
+        static public Byte[] SEND_MSG(UInt64 sessionId, UInt64 forResponseSID, JN_Message msg)
         {
+            byte[] result = new byte[4 + 8 + Encoding.Unicode.GetByteCount(msg.message) + 8 + 4];
+            int offset = 0;
+            Buffer.BlockCopy(ToBinary.LittleEndian(Encoding.Unicode.GetByteCount(msg.message)), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalMinutes), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalHours), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.Utf16(msg.message), 0, result, offset, Encoding.Unicode.GetByteCount(msg.message));
+            offset += Encoding.Unicode.GetByteCount(msg.message);
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.authorSUID), 0, result, offset, 8);
+            offset += 8;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.messageSUID), 0, result, offset, 4);
+
             return PackTogether
             (
                 sessionId,
@@ -19,59 +32,89 @@ namespace Shared.Source.USC
                 [
                     SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
                 ],
-                [
-                    .. ToBinary.BigEndian(DateTime4b.Now.PassedTotalMinutes),
-                    .. ToBinary.Utf8(msgText)
-                ]
+                result
             );
         }
 
-        static public Byte[] SEND_PIC(UInt64 sessionId, UInt64 forResponseSID)
+        static public Byte[] SEND_PIC(UInt64 sessionId, UInt64 forResponseSID, JN_Message msg)
         {
+            byte[] result = new byte[4 + 8 + Encoding.Unicode.GetByteCount(msg.message) + 8 + 4];
+            int offset = 0;
+            Buffer.BlockCopy(ToBinary.LittleEndian(Encoding.Unicode.GetByteCount(msg.message)), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalMinutes), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalHours), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.Utf16(msg.message), 0, result, offset, Encoding.Unicode.GetByteCount(msg.message));
+            offset += Encoding.Unicode.GetByteCount(msg.message);
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.authorSUID), 0, result, offset, 8);
+            offset += 8;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.messageSUID), 0, result, offset, 4);
+            
             return PackTogether
             (
                 sessionId,
                 forResponseSID,
-                MainCommand.SEND_MSG,
+                MainCommand.SEND_PIC,
                 [
                     SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
                 ],
-                [
-                    .. ToBinary.BigEndian(DateTime4b.Now.PassedTotalMinutes),
-                    //.. ToBinary.BigEndian(picture)
-                ]
+                result
             );
         }
-        static public Byte[] SEND_FILE(UInt64 sessionId, UInt64 forResponseSID)
+        static public Byte[] SEND_FILE(UInt64 sessionId, UInt64 forResponseSID, JN_Message msg)
         {
+            byte[] result = new byte[4 + 8 + Encoding.Unicode.GetByteCount(msg.message) + 8 + 4];
+            int offset = 0;
+            Buffer.BlockCopy(ToBinary.LittleEndian(Encoding.Unicode.GetByteCount(msg.message)), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalMinutes), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalHours), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.Utf16(msg.message), 0, result, offset, Encoding.Unicode.GetByteCount(msg.message));
+            offset += Encoding.Unicode.GetByteCount(msg.message);
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.authorSUID), 0, result, offset, 8);
+            offset += 8;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.messageSUID), 0, result, offset, 4);
+
             return PackTogether
             (
                 sessionId,
                 forResponseSID,
-                MainCommand.SEND_MSG,
+                MainCommand.SEND_FILE,
                 [
                     SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
                 ],
-                [
-                    .. ToBinary.BigEndian(DateTime4b.Now.PassedTotalMinutes),
-                    //.. ToBinary.BigEndian(fileContentPart)
-                ]
+                result
             );
         }
-        static public Byte[] SEND_MUSIC(UInt64 sessionId, UInt64 forResponseSID)
+        static public Byte[] SEND_MUSIC(UInt64 sessionId, UInt64 forResponseSID, JN_Message msg)
         {
+            byte[] result = new byte[4 + 8 + Encoding.Unicode.GetByteCount(msg.message) + 8 + 4];
+            int offset = 0;
+            Buffer.BlockCopy(ToBinary.LittleEndian(Encoding.Unicode.GetByteCount(msg.message)), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalMinutes), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.sentTime.PassedTotalHours), 0, result, offset, 4);
+            offset += 4;
+            Buffer.BlockCopy(ToBinary.Utf16(msg.message), 0, result, offset, Encoding.Unicode.GetByteCount(msg.message));
+            offset += Encoding.Unicode.GetByteCount(msg.message);
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.authorSUID), 0, result, offset, 8);
+            offset += 8;
+            Buffer.BlockCopy(ToBinary.LittleEndian(msg.messageSUID), 0, result, offset, 4);
+
             return PackTogether
             (
                 sessionId,
                 forResponseSID,
-                MainCommand.SEND_MSG,
+                MainCommand.SEND_MUSIC,
                 [
                     SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
                 ],
-                [
-                    .. ToBinary.BigEndian(DateTime4b.Now.PassedTotalMinutes),
-                    //.. ToBinary.BigEndian(music)
-                ]
+                result
             );
         }
         static public Byte[] DELETE_MSG(UInt64 sessionId, UInt64 forResponseSID, UInt64 messageId)
@@ -83,10 +126,9 @@ namespace Shared.Source.USC
                 MainCommand.DELETE_MSG,
                 [
                     SubCommand.SWITCH_MY_SESSION_ID_TO_NEW_AND_SEND_IT_BACK,
-                    
                 ],
                 [
-                    .. ToBinary.BigEndian(messageId)
+                    .. ToBinary.LittleEndian(messageId)
                 ]
             );
         }
