@@ -3,46 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MessengerServer.PostgreSQL_code
+namespace MessengerServer
 {
     internal class AppDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<UserDevices> UserDevices { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Participant> Participants { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=messenger_db;Username=postgres;Password=yourpass");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=JabNetDatabase;Username=Jadmin;Password=4649");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .Property(u => u.SUID)
-                .ValueGeneratedNever();
+            modelBuilder.Entity<UserDevices>()
+            .HasKey(ud => new { ud.UserSUID, ud.deviceID, ud.sessionID });
 
-            modelBuilder.Entity<Message>()
-                .Property(m => m.SUID)
-                .ValueGeneratedNever();
-
-            modelBuilder.Entity<Chat>()
-                .Property(c => c.SUID)
-                .ValueGeneratedNever();
-
-            modelBuilder.Entity<Message>()
-                .Property(m => m.Time)
-                .HasColumnType("time without time zone");
-
-            modelBuilder.Entity<Message>()
-                .HasIndex(m => m.Owner);
-            modelBuilder.Entity<Message>()
-                .HasIndex(m => m.Membership);
             modelBuilder.Entity<Participant>()
-                .HasIndex(p => p.UserSUID);
-            modelBuilder.Entity<Participant>()
-                .HasIndex(p => p.ChatSUID);
+            .HasKey(p => new { p.UserSUID, p.ChatSUID });
         }
     }
 }
