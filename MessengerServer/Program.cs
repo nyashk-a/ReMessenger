@@ -19,11 +19,10 @@ namespace MessengerServer
             }).Build();
             
             Channel<Socket> accepting = Channel.CreateUnbounded<Socket>();
-            var clientFabric = new ConnectionFabric(accepting, 22222);
 
             
 
-            // var server = host.Services.GetRequiredService<TaskHandler>();
+            // var server = host.Services.GetRequiredService<TaskHandler>(); 
         }
     }
 }
