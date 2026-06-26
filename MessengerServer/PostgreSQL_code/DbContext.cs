@@ -13,10 +13,8 @@ namespace MessengerServer
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Participant> Participants { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=localhost;Database=JabNetDatabase;Username=Jadmin;Password=4649");
-        }
+        public AppDbContext() { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

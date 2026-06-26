@@ -74,7 +74,7 @@ namespace MessengerServer
         public DateTime Time { get; set; }
         public UInt64 Owner { get; set; }
         public UInt64 Membership { get; set; }
-        public Type type { get; set; }
+        public Type ContentType { get; set; }
         public string? Content { get; set; }
 
         public enum Type

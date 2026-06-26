@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Threading.Channels;
+using AVcontrol;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,19 +11,68 @@ namespace MessengerServer
     {
         public static async Task Main(string[] args)
         {
-        var host = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddDbContext<AppDbContext>(options =>
+                        options.UseNpgsql("Host=localhost;Database=JabNetDatabase;Username=Jadmin;Password=4649"));
+                    
+                    services.AddTransient<Func<AppDbContext>>(sp => sp.GetRequiredService<AppDbContext>);
+                    services.AddSingleton<Handler>();
+                    services.AddHostedService<Handler>();
+                })
+                .Build();
+
+            using var scope = host.Services.CreateScope();
+            var handler = scope.ServiceProvider.GetRequiredService<Handler>();
+
+            await host.RunAsync();
+        }
+    }
+
+    internal class Handler : BackgroundService
+    {
+        private readonly IServiceScopeFactory _scopeFactory;
+
+        public Handler(IServiceScopeFactory scopeFactory)
+        {
+            _scopeFactory = scopeFactory;
+        }
+
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
             {
-                services.AddPooledDbContextFactory<AppDbContext>(options =>
-                options.UseNpgsql("Host=localhost;Database=JabNetDatabase;Username=Jadmin;Password=4649"));
-                services.AddSingleton<TaskHandler>();
-            }).Build();
-            
-            Channel<Socket> accepting = Channel.CreateUnbounded<Socket>();
+                await Task.Delay(1000 * 30);
+                await HandleAsync();
+            }
+        }
 
-            
+        public async Task HandleAsync()
+        {
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var last = await context.Messages
+                    .OrderByDescending(m => m.Time)
+                    .FirstOrDefaultAsync();
 
-            // var server = host.Services.GetRequiredService<TaskHandler>(); 
+                ulong newId = (last?.SUID ?? 0) + 1;
+
+                var msg = new Message
+                {
+                    SUID = newId,
+                    Time = DateTime.UtcNow,
+                    Owner = 22022,
+                    Membership = 11011,
+                    ContentType = Message.Type.text,
+                    Content = $"its time to tea: its {DateTime.Now}"
+                };
+
+                await context.Messages.AddAsync(msg);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
